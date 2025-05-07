@@ -35,7 +35,8 @@ pipeline {
 
         stage('Run Container (Optional)') {
             steps {
-                bat "docker run -d -p 8080:8080 %IMAGE_NAME%"
+                //bat "docker run -d -p 8080:8080 %IMAGE_NAME%"
+                bat 'docker run -d -p 9090:8080 kaviya1701/course-enrollment-app'
             }
         }
     }
