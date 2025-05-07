@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('Clone Repository') {
             steps {
-                git branch: 'main', url: 'https://github.com/kaviya17-01/CourseEnrollmentSpringBoot.git'
+                git branch: 'main', url: 'https://github.com/kaviya17-01/SpringBootProject.git'
             }
         }
 
