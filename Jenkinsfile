@@ -3,7 +3,6 @@ pipeline {
 
     environment {
         IMAGE_NAME = 'kaviya1701/course-enrollment-app'
-        JAVA_OPTS = "-Dorg.jenkinsci.plugins.durabletask.BourneShellScript.HEARTBEAT_CHECK_INTERVAL=86400"
     }
 
     stages {
@@ -16,7 +15,7 @@ pipeline {
         stage('Build with Maven') {
             steps {
                 dir('CourseEnrollment') {
-                    sh 'mvn clean package -DskipTests=true -Dmaven.test.skip=true'
+                    bat 'mvn clean package -DskipTests=true -Dmaven.test.skip=true'
                 }
             }
         }
@@ -24,7 +23,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 dir('CourseEnrollment') {
-                    sh 'docker build -t $IMAGE_NAME .'
+                    bat "docker build -t %IMAGE_NAME% ."
                 }
             }
         }
@@ -33,8 +32,8 @@ pipeline {
             steps {
                 dir('CourseEnrollment') {
                     withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
-                        sh 'echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin'
-                        sh 'docker push $IMAGE_NAME'
+                        bat 'echo %DOCKER_PASS% | docker login -u %DOCKER_USER% --password-stdin'
+                        bat "docker push %IMAGE_NAME%"
                     }
                 }
             }
@@ -42,7 +41,7 @@ pipeline {
 
         stage('Run Container (Optional)') {
             steps {
-                sh 'docker run -d -p 8080:8080 $IMAGE_NAME'
+                bat "docker run -d -p 8080:8080 %IMAGE_NAME%"
             }
         }
     }
@@ -54,12 +53,13 @@ pipeline {
         }
 
         success {
-            echo '✅ Pipeline completed successfully!'
+            echo ' Pipeline completed successfully!'
         }
 
         failure {
-            echo '❌ Pipeline failed. Check the logs.'
+            echo ' Pipeline failed. Check the logs.'
         }
     }
 }
+
 
