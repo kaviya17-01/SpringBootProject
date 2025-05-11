@@ -1,4 +1,4 @@
-Course Enrollment System
+##Course Enrollment System
 
 A Spring Boot application for managing students, courses, and enrollments. 
 This project demonstrates the use of Java, Spring Boot, REST APIs, JPA, and Docker, with CI/CD using Jenkins.
