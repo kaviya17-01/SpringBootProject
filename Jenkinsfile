@@ -12,9 +12,15 @@ pipeline {
             }
         }
 
+        stage('Run Tests') {
+            steps {
+                bat 'mvn test'
+            }
+        }
+
         stage('Build with Maven') {
             steps {
-                bat 'mvn clean package -DskipTests=true -Dmaven.test.skip=true'
+                bat 'mvn clean package -DskipTests'
             }
         }
 
@@ -35,7 +41,6 @@ pipeline {
 
         stage('Run Container (Optional)') {
             steps {
-                //bat "docker run -d -p 8080:8080 %IMAGE_NAME%"
                 bat 'docker run -d -p 9090:8080 kaviya1701/course-enrollment-app'
             }
         }
@@ -56,6 +61,7 @@ pipeline {
         }
     }
 }
+
 
 
 
